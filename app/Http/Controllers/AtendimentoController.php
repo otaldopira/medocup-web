@@ -16,7 +16,7 @@ class AtendimentoController extends Controller
             // Verifique se o arquivo foi enviado corretamente
             if ($request->hasFile('documento')) {
                 $documento = $request->file('documento');
-
+                
                 // Salve as informações do arquivo no banco de dados
                 return Atendimento::salvarDocumento($documento, $profissional_id, $colaborador_id);
                  

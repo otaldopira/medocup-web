@@ -6,6 +6,12 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     @vite('resources/js/app.js')
     @inertiaHead
+    <style>
+/* Largura da barra de rolagem */
+::-webkit-scrollbar {
+    width: 0px;
+}
+    </style>
   </head>
   <body>
     @inertia

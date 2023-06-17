@@ -6,7 +6,7 @@
             <div class="row my-2">
                 <div class="col">
                     <div class="form-group">
-                        <label for="data"><i class="text-danger">* </i>Data inicio:</label>
+                        <label for="data"><i class="text-danger">* </i>Data início:</label>
                         <input
                             type="date"
                             id="data"

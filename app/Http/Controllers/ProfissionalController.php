@@ -96,6 +96,39 @@ class ProfissionalController extends Controller
             ]);
         }
     }
+    public function autenticacao(Request $request, $profissional_id)
+    {
+        try {
+            $request->validate([
+                'email' => 'required',
+                'senha' => 'required',
+            ]);
+
+            if (!$profissional_id) {
+                return response()->json([
+                    'message' => 'O ID do profissional é obrigatório',
+                    'code' => 400
+                ]);
+            }
+
+            Profissional::autenticacaoProfissional(
+                $profissional_id,
+                $request->email,
+                $request->senha,
+
+            );
+            
+            return response()->json([
+                'message' => 'Autenticação atualizada com sucesso',
+                'code' => 200
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Erro ao atualizar autenticação',
+                'code' => 500
+            ]);
+        }
+    }
     public function fazerLogin(Request $request)
     {
         try {

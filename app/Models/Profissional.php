@@ -37,6 +37,12 @@ class Profissional extends Model
             ->where('profissional_id', intval($profissional_id))
             ->delete();
     }
+    public static function autenticacaoProfissional($profissional_id, $email, $senha)
+    {
+        DB::table('profissionais')
+            ->where('profissional_id', intval($profissional_id))
+            ->update(['email' => $email, 'senha' => $senha]);
+    }
     public static function atualizarProfissional($id, $nome, $cpf, $crm)
     {
         DB::table('profissionais')

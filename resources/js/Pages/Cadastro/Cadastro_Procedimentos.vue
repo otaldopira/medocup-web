@@ -3,7 +3,7 @@
     <div class="container">
         <div class="card shadow-lg p-5 m-5">
             <div class="mb-3">
-                <h2>Cadastro de procedimentos</h2>
+                <h2>Procedimentos</h2>
             </div>
             <form>
                 <div class="form-group">

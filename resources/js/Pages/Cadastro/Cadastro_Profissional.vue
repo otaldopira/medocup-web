@@ -2,57 +2,111 @@
     <Navbar></Navbar>
     <div class="container">
         <div class="card shadow-lg p-5 m-5">
-            <h2>Cadastro de profissionais</h2>
-            <form>
-                <div class="form-group">
-                    <label for="nome_completo">Nome Completo:</label>
-                    <input
-                        type="text"
-                        class="form-control"
-                        id="nome_completo"
-                        v-model="nome"
-                    />
+            <h2>Profissionais</h2>
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a
+                        class="nav-link"
+                        :class="{ active: activeTab === 'ficha' }"
+                        @click="changeTab('ficha')"
+                        id="ficha"
+                        href="#"
+                        >Ficha</a
+                    >
+                </li>
+                <li
+                    class="nav-item nav-Autenticacao"
+                    v-if="!url.match('/cadastro/profissional')"
+                >
+                    <a
+                        class="nav-link"
+                        :class="{ active: activeTab === 'autenticacao' }"
+                        @click="changeTab('autenticacao')"
+                        id="Autenticacao"
+                        href="#"
+                        >Autenticação</a
+                    >
+                </li>
+            </ul>
+            <template v-if="activeTab === 'ficha'">
+                <div>
+                    <div class="form-group">
+                        <label for="nome_completo">Nome Completo:</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="nome_completo"
+                            v-model="nome"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="cpf">CPF:</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="cpf"
+                            v-model="cpf"
+                            v-mask="['###.###.###-##']"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="cpf">CRM:</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="crm"
+                            v-model="crm"
+                        />
+                    </div>
+                    <div class="d-flex justify-content-center mt-3">
+                        <button
+                            type="submit"
+                            @click="submitForm"
+                            class="w-50"
+                            :class="buttonClass"
+                        >
+                            {{ buttonText }}
+                        </button>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="cpf">CPF:</label>
-                    <input
-                        type="text"
-                        class="form-control"
-                        id="cpf"
-                        v-model="cpf"
-                    />
+            </template>
+            <template
+                v-if="
+                    activeTab === 'autenticacao' &&
+                    !url.match('/cadastro/profissional')
+                "
+            >
+                <div>
+                    <div class="form-group">
+                        <label for="cpf">E-mail:</label>
+                        <input
+                            type="email"
+                            class="form-control"
+                            id="email"
+                            v-model="email"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="cpf">Senha:</label>
+                        <input
+                            type="password"
+                            class="form-control"
+                            id="senha"
+                            v-model="senha"
+                        />
+                    </div>
+                    <div class="d-flex justify-content-center mt-3">
+                        <button
+                            type="submit"
+                            @click="submitAutenticacao()"
+                            class="w-50"
+                            :class="buttonClass"
+                        >
+                            {{ buttonText }}
+                        </button>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="cpf">CRM:</label>
-                    <input
-                        type="text"
-                        class="form-control"
-                        id="crm"
-                        v-model="crm"
-                    />
-                </div>
-                <div class="form-group">
-                    <label for="cpf">E-mail:</label>
-                    <input
-                        type="email"
-                        class="form-control"
-                        id="email"
-                        v-model="email"
-                    />
-                </div>
-                <div class="form-group">
-                    <label for="cpf">Senha:</label>
-                    <input
-                        type="password"
-                        class="form-control"
-                        id="senha"
-                        v-model="senha"
-                    />
-                </div>
-                <button type="submit" @click="submitForm" :class="buttonClass">
-                    {{ buttonText }}
-                </button>
-            </form>
+            </template>
         </div>
     </div>
 </template>
@@ -60,6 +114,7 @@
 <script>
 import Navbar from "../../Components/Navbar.vue";
 import Swal from "sweetalert2/dist/sweetalert2.js";
+import { createToast } from "mosha-vue-toastify";
 import axios from "axios";
 import $ from "jquery";
 import { mask } from "vue-the-mask";
@@ -72,12 +127,17 @@ export default {
     components: {
         Navbar,
     },
+    directives: { mask },
     data() {
         return {
+            activeTab: "ficha",
             nome: "",
             cpf: "",
             crm: "",
+            email: "",
+            senha: "",
             isEditing: false,
+            url: window.location.href,
         };
     },
     computed: {
@@ -89,7 +149,7 @@ export default {
         },
         // Texto do botão com base no modo (Editar ou Cadastrar)
         buttonText() {
-            return this.isEditing ? "Editar" : "Cadastrar";
+            return this.isEditing ? "Salvar" : "Cadastrar";
         },
     },
     methods: {
@@ -100,19 +160,51 @@ export default {
                 this.createForm(); // Chama a função para cadastrar
             }
         },
-        createForm() {
+        async submitAutenticacao() {
             event.preventDefault();
-            axios
+            await axios
+                .post(`/autenticacao/profissional/${this.id}`, {
+                    email: this.email,
+                    senha: this.senha,
+                })
+                .catch((response) => {
+                    createToast("Erro ao inserir o auntenticação!", {
+                        type: "danger",
+                        showIcon: true,
+                        timeout: 2500,
+                    });
+                })
+                .then((response) => {
+                    console.log(response);
+                    if (response.data.code == 200) {
+                        this.exibirModal(
+                            "success",
+                            "Aunteticação inserida com sucesso!",
+                            true
+                        );
+                    } else {
+                        createToast("Erro ao inserir o auntenticação!", {
+                            type: "danger",
+                            showIcon: true,
+                            timeout: 2500,
+                        });
+                    }
+                });
+        },
+        async createForm() {
+            event.preventDefault();
+            await axios
                 .post("/adicionar/profissional", {
                     nome: this.nome,
                     cpf: this.cpf,
                     crm: this.crm,
                 })
                 .catch((response) => {
-                    this.exibirModal(
-                        "error",
-                        "Ocorreu ao inserir o profissional."
-                    );
+                    createToast("Erro ao inserir o profissional!", {
+                        type: "danger",
+                        showIcon: true,
+                        timeout: 2500,
+                    });
                 })
                 .then((response) => {
                     if (response.data.code == 200) {
@@ -122,26 +214,28 @@ export default {
                             true
                         );
                     } else {
-                        this.exibirModal(
-                            "error",
-                            "Ocorreu um erro ao atualizar o profissional."
-                        );
+                        createToast("Erro ao inserir o profissional!", {
+                            type: "danger",
+                            showIcon: true,
+                            timeout: 2500,
+                        });
                     }
                 });
         },
-        editForm() {
+        async editForm() {
             event.preventDefault();
-            axios
+            await axios
                 .put(`/atualizar/profissional/${this.id}`, {
                     nome: this.nome,
                     cpf: this.cpf,
                     crm: this.crm,
                 })
                 .catch((response) => {
-                    this.exibirModal(
-                        "error",
-                        "Ocorreu um erro ao atualizar o profissional."
-                    );
+                    createToast("Erro ao atualizar o profissional!", {
+                        type: "danger",
+                        showIcon: true,
+                        timeout: 2500,
+                    });
                 })
                 .then((response) => {
                     console.log(response);
@@ -152,10 +246,11 @@ export default {
                             true
                         );
                     } else {
-                        this.exibirModal(
-                            "error",
-                            "Ocorreu um erro ao atualizar o profissional."
-                        );
+                        createToast("Erro ao atualizar o profissional!", {
+                            type: "danger",
+                            showIcon: true,
+                            timeout: 2500,
+                        });
                     }
                 });
         },
@@ -189,8 +284,12 @@ export default {
                     this.nome = response.data.nome;
                     this.cpf = response.data.cpf;
                     this.crm = response.data.crm;
+                    this.email = response.data.email;
                     Swal.close();
                 });
+        },
+        changeTab(tab) {
+            this.activeTab = tab;
         },
     },
     mounted() {
@@ -206,4 +305,5 @@ export default {
 <style>
 @import "sweetalert2/dist/sweetalert2.min.css";
 @import "bootstrap/dist/css/bootstrap.css";
+@import "mosha-vue-toastify/dist/style.css";
 </style>

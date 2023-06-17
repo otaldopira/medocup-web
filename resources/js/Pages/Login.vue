@@ -1,12 +1,12 @@
 <template>
-    <section class="vh-100 pt-5">
+    <section class="vh-100 d-flex">
         <div class="container-fluid">
             <div
                 class="row d-flex justify-content-center align-items-center h-100"
             >
                 <div class="col-md-9 col-lg-6 col-xl-5">
                     <img
-                        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                        src="../../assets/5207289.jpg"
                         class="img-fluid"
                         alt="Sample image"
                     />

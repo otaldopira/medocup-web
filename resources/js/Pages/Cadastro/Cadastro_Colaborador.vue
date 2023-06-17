@@ -2,7 +2,7 @@
     <Navbar></Navbar>
     <div class="container">
         <div class="card shadow-lg p-5 m-5">
-            <h2>Cadastro de Colaboradores</h2>
+            <h2>Colaboradores</h2>
             <ul class="nav nav-tabs">
                 <li class="nav-item">
                     <a
@@ -72,9 +72,11 @@
                             v-model="celular"
                         />
                     </div>
-                    <button type="submit" @click="submitForm" :class="buttonClass">
-                        {{ buttonText }}
-                    </button>
+                    <div class="d-flex justify-content-center mt-3">
+                        <button type="submit" @click="submitForm" class="w-50" :class="buttonClass">
+                            {{ buttonText }}
+                        </button>
+                    </div>
                 </form>
             </div>
             <div id="atendimento-paciente" hidden>
@@ -203,7 +205,7 @@ export default {
         capturarArquivo(event) {
             this.atendimento.arquivo = event.target.files[0];
         },
-        enviarArquivo() {
+        async enviarArquivo() {
             var form = "";
             var profissional = JSON.parse(localStorage.getItem("profissional"));
             form = new FormData();
@@ -212,13 +214,14 @@ export default {
             form.append("colaborador_id", this.id);
             form.append("profissional_id", profissional.profissional_id);
 
-            axios
+            await axios
                 .post("/upload", form, {
                     headers: {
                         "Content-Type": "multipart/form-data",
                     },
                 })
                 .then((response) => {
+                    console.log(response);
                     if (response.data != "") {
                         this.fetchAtendimentos();
                     }

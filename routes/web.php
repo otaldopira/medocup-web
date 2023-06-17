@@ -68,6 +68,7 @@ Route::get('/buscar/profissional/{id}', [ProfissionalController::class, 'find'])
 Route::post('/adicionar/profissional', [ProfissionalController::class, 'create']);
 Route::put('/atualizar/profissional/{id}', [ProfissionalController::class, 'update']);
 Route::post('/remover/profissional/{id}', [ProfissionalController::class, 'remove']);
+Route::post('/autenticacao/profissional/{id}', [ProfissionalController::class, 'autenticacao']);
 
 // EMPRESAS
 Route::get('/empresas', function () {
