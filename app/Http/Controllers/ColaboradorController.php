@@ -31,8 +31,14 @@ class ColaboradorController extends Controller
                 'nome_completo' => 'required',
                 'cpf' => 'required|min:11',
                 'data_nascimento' => 'required',
-                'celular' => 'required',
                 'genero' => 'required',
+                'celular' => 'required',
+                'cep' => 'required',
+                'rua' => 'required',
+                'bairro' => 'required',
+                'cidade' => 'required',
+                'estado' => 'required',
+
             ]);
 
             // Chame o método insertAgendamento no modelo Agendamento
@@ -40,8 +46,15 @@ class ColaboradorController extends Controller
                 $request->nome_completo,
                 $request->cpf,
                 $request->data_nascimento,
+                $request->data_admissao,
                 $request->genero,
                 $request->celular,
+                $request->cep,
+                $request->rua,
+                $request->numero,
+                $request->bairro,
+                $request->cidade,
+                $request->estado,
 
             );
 
@@ -92,8 +105,13 @@ class ColaboradorController extends Controller
                 'nome_completo' => 'required',
                 'cpf' => 'required|min:11',
                 'data_nascimento' => 'required',
-                'celular' => 'required',
                 'genero' => 'required',
+                'celular' => 'required',
+                'cep' => 'required',
+                'rua' => 'required',
+                'bairro' => 'required',
+                'cidade' => 'required',
+                'estado' => 'required',
             ]);
 
             // Chame o método updateColaborador no modelo Colaborador
@@ -101,8 +119,15 @@ class ColaboradorController extends Controller
                 $id, $request->nome_completo,
                 $request->cpf,
                 $request->data_nascimento,
+                $request->data_admissao,
                 $request->genero,
                 $request->celular,
+                $request->cep,
+                $request->rua,
+                $request->numero,
+                $request->bairro,
+                $request->cidade,
+                $request->estado
             );
 
             return response()->json([

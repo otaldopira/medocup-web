@@ -3,217 +3,228 @@
     <div class="container">
         <div class="card shadow-lg my-5 p-4 w-75 mx-auto">
             <h2 class="mb-4">Agendamento</h2>
-            <form @submit.prevent="submitForm">
-                <div class="row my-2">
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="data">Data:</label>
-                            <input
-                                type="date"
-                                id="data"
-                                class="form-control"
-                                :value="formattedDate"
-                                required
-                                disabled
-                            />
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="hora">Hora:</label>
-                            <input
-                                type="time"
-                                id="hora"
-                                class="form-control"
-                                :value="formattedTime"
-                                required
-                                disabled
-                            />
-                        </div>
+            <div class="row my-2">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="data" class="fw-bold">Data:</label>
+                        <input
+                            type="date"
+                            id="data"
+                            class="form-control"
+                            :value="formattedDate"
+                            required
+                            disabled
+                        />
                     </div>
                 </div>
-                <div class="row my-2">
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="search-status">Status:</label>
-                            <select
-                                data-placeholder="Selecione o status"
-                                class="form-control"
-                                id="search-status"
-                                v-model="form.status"
-                                required
-                            >
-                                <template
-                                    v-for="(status, index) in this.status"
-                                    :key="index"
-                                >
-                                    <option
-                                        :value="status.id"
-                                        v
-                                        :selected="
-                                            status.id ===
-                                            this.agendamento?.status_id
-                                        "
-                                    >
-                                        {{ status.status }}
-                                    </option>
-                                </template>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="search-colaborador">Colaborador:</label>
-                            <select
-                                data-placeholder="Selecione um colaborador"
-                                class="form-control"
-                                id="search-colaborador"
-                                v-model="form.colaborador"
-                                required
-                            >
-                                <template
-                                    v-for="(colaborador, index) in this
-                                        .colaboradores"
-                                    :key="index"
-                                >
-                                    <option
-                                        :value="colaborador.colaborador_id"
-                                        :selected="
-                                            colaborador.colaborador_id ===
-                                            this.agendamento?.colaborador_id
-                                        "
-                                    >
-                                        {{ colaborador.nome_completo }}
-                                    </option>
-                                </template>
-                            </select>
-                        </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="hora" class="fw-bold">Hora:</label>
+                        <input
+                            type="time"
+                            id="hora"
+                            class="form-control"
+                            :value="formattedTime"
+                            required
+                            disabled
+                        />
                     </div>
                 </div>
-                <div class="row my-2">
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="search-empresa">Empresa:</label>
-                            <select
-                                data-placeholder="Selecione a empresa"
-                                class="form-control"
-                                id="search-empresa"
-                                v-model="form.empresa"
-                                required
+            </div>
+            <div class="row my-2">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="search-status" class="fw-bold"
+                            >Status:</label
+                        >
+                        <select
+                            data-placeholder="Selecione o status"
+                            class="form-control"
+                            id="search-status"
+                            v-model="form.status"
+                            required
+                        >
+                            <template
+                                v-for="(status, index) in this.status"
+                                :key="index"
                             >
-                                <template
-                                    v-for="(empresa, index) in this.empresas"
-                                    :key="index"
+                                <option
+                                    :value="status.id"
+                                    v
+                                    :selected="
+                                        status.id ===
+                                        this.agendamento?.status_id
+                                    "
                                 >
-                                    <option
-                                        :value="empresa.empresa_id"
-                                        :selected="
-                                            empresa.empresa_id ===
-                                            this.agendamento?.empresa_id
-                                        "
-                                    >
-                                        {{ empresa.nome_fantasia }}
-                                    </option>
-                                </template>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="telefone">Telefone:</label>
-                            <input
-                                id="telefone"
-                                type="text"
-                                class="form-control"
-                                v-model="form.telefone"
-                                required
-                            />
-                        </div>
+                                    {{ status.status }}
+                                </option>
+                            </template>
+                        </select>
                     </div>
                 </div>
-                <div class="row my-2">
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="search-procedimento"
-                                >Procedimento:</label
+                <div class="col">
+                    <div class="form-group">
+                        <label for="search-colaborador" class="fw-bold"
+                            >Colaborador:
+                            <span
+                                @click="irFicha()"
+                                v-if="form.colaborador"
+                                class="btn badge text-bg-success mb-1"
+                                >Ver ficha</span
                             >
-                            <select
-                                data-placeholder="Selecione um procedimento"
-                                class="form-control"
-                                id="search-procedimento"
-                                v-model="form.procedimento"
-                                required
+                        </label>
+                        <select
+                            data-placeholder="Selecione um colaborador"
+                            class="form-control"
+                            id="search-colaborador"
+                            v-model="form.colaborador"
+                            required
+                        >
+                            <template
+                                v-for="(colaborador, index) in this
+                                    .colaboradores"
+                                :key="index"
                             >
-                                <template
-                                    v-for="(procedimento, index) in this
-                                        .procedimentos"
-                                    :key="index"
+                                <option
+                                    :value="colaborador.colaborador_id"
+                                    :selected="
+                                        colaborador.colaborador_id ===
+                                        this.agendamento?.colaborador_id
+                                    "
                                 >
-                                    <option
-                                        :value="procedimento.procedimento_id"
-                                    >
-                                        {{ procedimento.nome }}
-                                    </option>
-                                </template>
-                            </select>
-                        </div>
+                                    {{ colaborador.nome_completo }}
+                                </option>
+                            </template>
+                        </select>
                     </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="tempo">Tempo:</label>
-                            <input
-                                type="text"
-                                id="tempo"
-                                class="form-control"
-                                v-model="form.tempo"
-                                placeholder="Minutos"
-                                required
-                            />
-                        </div>
+                </div>
+            </div>
+            <div class="row my-2">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="search-empresa" class="fw-bold">Empresa:</label>
+                        <select
+                            data-placeholder="Selecione a empresa"
+                            class="form-control"
+                            id="search-empresa"
+                            v-model="form.empresa"
+                            required
+                        >
+                            <template
+                                v-for="(empresa, index) in this.empresas"
+                                :key="index"
+                            >
+                                <option
+                                    :value="empresa.empresa_id"
+                                    :selected="
+                                        empresa.empresa_id ===
+                                        this.agendamento?.empresa_id
+                                    "
+                                >
+                                    {{ empresa.nome_fantasia }}
+                                </option>
+                            </template>
+                        </select>
                     </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="valor">Valor:</label>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span
-                                        class="input-group-text"
-                                        id="basic-addon1"
-                                        >R$</span
-                                    >
-                                </div>
-                                <input
-                                    id="valor"
-                                    type="text"
-                                    v-money="money"
-                                    class="form-control"
-                                    v-model="form.valor"
-                                    required
-                                />
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="telefone" class="fw-bold">Telefone:</label>
+                        <input
+                            id="telefone"
+                            type="text"
+                            class="form-control"
+                            v-model="form.telefone"
+                            required
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="row my-2">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="search-procedimento" class="fw-bold">Procedimento:</label>
+                        <select
+                            data-placeholder="Selecione um procedimento"
+                            class="form-control"
+                            id="search-procedimento"
+                            v-model="form.procedimento"
+                            required
+                        >
+                            <template
+                                v-for="(procedimento, index) in this
+                                    .procedimentos"
+                                :key="index"
+                            >
+                                <option :value="procedimento.procedimento_id">
+                                    {{ procedimento.nome }}
+                                </option>
+                            </template>
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="tempo" class="fw-bold">Tempo:</label>
+                        <input
+                            type="text"
+                            id="tempo"
+                            class="form-control"
+                            v-model="form.tempo"
+                            placeholder="Minutos"
+                            required
+                        />
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="valor" class="fw-bold">Valor:</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"
+                                    >R$</span
+                                >
                             </div>
+                            <input
+                                id="valor"
+                                type="text"
+                                v-money="money"
+                                class="form-control"
+                                v-model="form.valor"
+                                required
+                            />
                         </div>
                     </div>
                 </div>
-                <div class="d-flex gap-5 justify-content-center">
+            </div>
+            <div class="form-group">
+                <label for="observacoes" class="fw-bold">Observações:</label>
+                <textarea
+                    class="form-control"
+                    id="observacoes"
+                    rows="3"
+                    v-model="form.observacoes"
+                ></textarea>
+            </div>
+            <div class="d-flex gap-5 justify-content-center">
+                <button
+                    type="submit"
+                    @click="submitForm"
+                    :class="buttonClass "
+                    class="w-50 fw-bold btn-lg"
+                >
+                    {{ buttonText }}
+                </button>
+                <template v-if="isEditing">
                     <button
                         type="submit"
-                        @click="submitForm"
-                        :class="buttonClass"
-                        class="w-50"
+                        @click="removeForm"
+                        class="btn btn-danger mt-3 w-50 fw-bold btn-lg"
                     >
-                        {{ buttonText }}
+                        Excluir
                     </button>
-                    <template v-if="isEditing">
-                        <button
-                            type="submit"
-                            @click="removeForm"
-                            class="btn btn-danger mt-3 w-50"
-                        >
-                            Excluir
-                        </button>
-                    </template>
-                </div>
-            </form>
+                </template>
+            </div>
         </div>
     </div>
 </template>
@@ -251,6 +262,7 @@ export default {
                 procedimento: "",
                 tempo: "",
                 valor: "",
+                observacoes: "",
             },
             isEditing: false,
             colaboradores: [],
@@ -276,7 +288,7 @@ export default {
                 decimal: ",",
                 thousands: ".",
                 precision: 2,
-                masked: false 
+                masked: false,
             },
         };
     },
@@ -312,6 +324,9 @@ export default {
         },
     },
     methods: {
+        irFicha() {
+            window.open(`/colaborador/${this.form.colaborador}`, "_blank");
+        },
         submitForm() {
             if (this.isEditing) {
                 this.editForm();
@@ -322,7 +337,9 @@ export default {
         async removeForm() {
             event.preventDefault();
             await axios
-                .post(`/excluir/agendamento/${this.agendamento[0].agendamento_id}`)
+                .post(
+                    `/excluir/agendamento/${this.agendamento[0].agendamento_id}`
+                )
                 .catch((response) => {
                     this.exibirModal(
                         "error",
@@ -355,6 +372,7 @@ export default {
                     procedimento: this.form.procedimento,
                     tempo: this.form.tempo,
                     valor: this.form.valor,
+                    observacoes: this.form.observacoes,
                 })
                 .catch((response) => {
                     this.exibirModal(
@@ -392,6 +410,7 @@ export default {
                     procedimento: this.form.procedimento,
                     tempo: this.form.tempo,
                     valor: this.form.valor,
+                    observacoes: this.form.observacoes,
                 })
                 .catch((response) => {
                     console.log(response);
@@ -503,6 +522,7 @@ export default {
             this.form.tempo = agendamento.tempo;
             this.form.valor = agendamento.valor;
             this.form.empresa = agendamento.empresa_id;
+            this.form.observacoes = agendamento.observacoes;
             console.log("receberDados");
         },
         iniciarSelect() {

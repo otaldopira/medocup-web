@@ -6,7 +6,7 @@
             <ul class="nav nav-tabs">
                 <li class="nav-item">
                     <a
-                        class="nav-link"
+                        class="nav-link fw-bold"
                         :class="{ active: activeTab === 'ficha' }"
                         @click="changeTab('ficha')"
                         id="ficha"
@@ -19,7 +19,7 @@
                     v-if="!url.match('/cadastro/profissional')"
                 >
                     <a
-                        class="nav-link"
+                        class="nav-link fw-bold"
                         :class="{ active: activeTab === 'autenticacao' }"
                         @click="changeTab('autenticacao')"
                         id="Autenticacao"
@@ -30,8 +30,8 @@
             </ul>
             <template v-if="activeTab === 'ficha'">
                 <div>
-                    <div class="form-group">
-                        <label for="nome_completo">Nome Completo:</label>
+                    <div class="form-group my-2">
+                        <label class="fw-bold" for="nome_completo">Nome Completo:</label>
                         <input
                             type="text"
                             class="form-control"
@@ -39,8 +39,8 @@
                             v-model="nome"
                         />
                     </div>
-                    <div class="form-group">
-                        <label for="cpf">CPF:</label>
+                    <div class="form-group my-2">
+                        <label class="fw-bold" for="cpf">CPF:</label>
                         <input
                             type="text"
                             class="form-control"
@@ -49,8 +49,8 @@
                             v-mask="['###.###.###-##']"
                         />
                     </div>
-                    <div class="form-group">
-                        <label for="cpf">CRM:</label>
+                    <div class="form-group my-2">
+                        <label class="fw-bold" for="cpf">CRM:</label>
                         <input
                             type="text"
                             class="form-control"
@@ -62,7 +62,7 @@
                         <button
                             type="submit"
                             @click="submitForm"
-                            class="w-50"
+                            class="w-50 fw-bold btn-lg"
                             :class="buttonClass"
                         >
                             {{ buttonText }}
@@ -77,8 +77,8 @@
                 "
             >
                 <div>
-                    <div class="form-group">
-                        <label for="cpf">E-mail:</label>
+                    <div class="form-group my-2">
+                        <label class="fw-bold" for="cpf">E-mail:</label>
                         <input
                             type="email"
                             class="form-control"
@@ -86,8 +86,8 @@
                             v-model="email"
                         />
                     </div>
-                    <div class="form-group">
-                        <label for="cpf">Senha:</label>
+                    <div class="form-group my-2">
+                        <label class="fw-bold" for="cpf">Senha:</label>
                         <input
                             type="password"
                             class="form-control"
@@ -99,7 +99,7 @@
                         <button
                             type="submit"
                             @click="submitAutenticacao()"
-                            class="w-50"
+                            class="w-50 fw-bold btn-lg"
                             :class="buttonClass"
                         >
                             {{ buttonText }}

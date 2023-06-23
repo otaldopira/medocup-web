@@ -23,14 +23,15 @@ class Agendamento extends Model
         'empresa_id',
         'tempo',
         'valor',
+        'observacoes'
     ];
 
-    public static function inserirAgendamento($profissional_id, $data, $hora, $status, $colaborador, $empresa, $telefone, $procedimento, $tempo, $valor)
+    public static function inserirAgendamento($profissional_id, $data, $hora, $status, $colaborador, $empresa, $telefone, $procedimento, $tempo, $valor, $observacoes)
     {
-        DB::table('agendamentos')->insert(['profissional_id' => $profissional_id, 'data' => $data, 'hora' => $hora, 'status_id' => $status, 'colaborador_id' => $colaborador, 'empresa_id' => $empresa, 'telefone' => $telefone, 'procedimento_id' => $procedimento, 'tempo' => $tempo, 'valor' => str_replace(['.', ','], ['', '.'], $valor)]);
+        DB::table('agendamentos')->insert(['profissional_id' => $profissional_id, 'data' => $data, 'hora' => $hora, 'status_id' => $status, 'colaborador_id' => $colaborador, 'empresa_id' => $empresa, 'telefone' => $telefone, 'procedimento_id' => $procedimento, 'tempo' => $tempo, 'valor' => str_replace(['.', ','], ['', '.'], $valor), 'observacoes' => $observacoes]);
     }
 
-    public static function atualizarAgendamento($agendamento_id, $status, $empresa, $colaborador, $telefone, $procedimento, $tempo, $valor)
+    public static function atualizarAgendamento($agendamento_id, $status, $empresa, $colaborador, $telefone, $procedimento, $tempo, $valor, $observacoes)
     {
         DB::table('agendamentos')
             ->where('agendamento_id', intval($agendamento_id))
@@ -42,6 +43,7 @@ class Agendamento extends Model
                 'procedimento_id' => intval($procedimento),
                 'tempo' => $tempo,
                 'valor' => str_replace(['.', ','], ['', '.'], $valor),
+                'observacoes' => $observacoes
             ]);
     }
     public static function removerAgendamento($agendamento_id)
@@ -58,7 +60,7 @@ class Agendamento extends Model
 
         return $agendamento;
     }
-    public static function relatorioAgendamentoGeral($profissional_id,$empresa_id, $data_inicio, $data_fim)
+    public static function relatorioAgendamentoGeral($profissional_id, $empresa_id, $data_inicio, $data_fim)
     {
         // ID 5 é atendido
         $agendamento = DB::table('agendamentos')

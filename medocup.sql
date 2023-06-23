@@ -24,25 +24,28 @@ DROP TABLE IF EXISTS `agendamentos`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `agendamentos` (
   `agendamento_id` int unsigned NOT NULL AUTO_INCREMENT,
-  `colaborador_id` int unsigned NOT NULL,
-  `profissional_id` int unsigned NOT NULL,
-  `empresa_id` int unsigned NOT NULL,
-  `procedimento_id` int DEFAULT NULL,
+  `colaborador_id` int unsigned DEFAULT NULL,
+  `profissional_id` int unsigned DEFAULT NULL,
+  `empresa_id` int unsigned DEFAULT NULL,
+  `procedimento_id` int unsigned DEFAULT NULL,
   `data` date DEFAULT NULL,
   `hora` time DEFAULT NULL,
   `valor` decimal(8,2) DEFAULT NULL,
   `tempo` int DEFAULT NULL,
   `status_id` int DEFAULT NULL,
   `telefone` varchar(255) DEFAULT NULL,
+  `observacoes` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`agendamento_id`),
-  KEY `colaborador_fk` (`colaborador_id`),
-  KEY `profissional_fk` (`profissional_id`),
-  KEY `empresa_fk_idx` (`empresa_id`),
-  CONSTRAINT `colaborador_fk` FOREIGN KEY (`colaborador_id`) REFERENCES `colaboradores` (`colaborador_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `empresa_fk` FOREIGN KEY (`empresa_id`) REFERENCES `empresas` (`empresa_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `profissional_fk` FOREIGN KEY (`profissional_id`) REFERENCES `profissionais` (`profissional_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `colaborador_fk_idx` (`colaborador_id`),
+  KEY `profissional_fk_idx` (`profissional_id`),
+  KEY `empresa_fk` (`empresa_id`),
+  KEY `procedimento_fk` (`procedimento_id`),
+  CONSTRAINT `colaborador_fk` FOREIGN KEY (`colaborador_id`) REFERENCES `colaboradores` (`colaborador_id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `empresa_fk` FOREIGN KEY (`empresa_id`) REFERENCES `empresas` (`empresa_id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `procedimento_fk` FOREIGN KEY (`procedimento_id`) REFERENCES `procedimentos` (`procedimento_id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `profissional_fk` FOREIGN KEY (`profissional_id`) REFERENCES `profissionais` (`profissional_id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -54,17 +57,17 @@ DROP TABLE IF EXISTS `atendimentos`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `atendimentos` (
   `atendimento_id` int unsigned NOT NULL AUTO_INCREMENT,
-  `colaborador_id` int unsigned NOT NULL,
-  `profissional_id` int unsigned NOT NULL,
+  `colaborador_id` int unsigned DEFAULT NULL,
+  `profissional_id` int unsigned DEFAULT NULL,
   `nome` varchar(255) DEFAULT NULL,
   `caminho` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`atendimento_id`),
-  KEY `colaborador_id_fk_idx` (`colaborador_id`),
-  KEY `profissional_id_kf_idx` (`profissional_id`),
-  CONSTRAINT `colaborador_id_fk` FOREIGN KEY (`colaborador_id`) REFERENCES `colaboradores` (`colaborador_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `profissional_id_fk` FOREIGN KEY (`profissional_id`) REFERENCES `profissionais` (`profissional_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `colaborador_fk_idx` (`colaborador_id`),
+  KEY `profissional_fkk_idx` (`profissional_id`),
+  CONSTRAINT `colaborador_fkk` FOREIGN KEY (`colaborador_id`) REFERENCES `colaboradores` (`colaborador_id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `profissional_fkk` FOREIGN KEY (`profissional_id`) REFERENCES `profissionais` (`profissional_id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -79,11 +82,18 @@ CREATE TABLE `colaboradores` (
   `nome_completo` varchar(255) DEFAULT NULL,
   `cpf` varchar(11) DEFAULT NULL,
   `data_nascimento` date DEFAULT NULL,
+  `data_admissao` date DEFAULT NULL,
   `genero` varchar(255) DEFAULT NULL,
   `celular` varchar(255) DEFAULT NULL,
+  `cep` varchar(45) DEFAULT NULL,
+  `rua` varchar(255) DEFAULT NULL,
+  `numero` int DEFAULT NULL,
+  `bairro` varchar(255) DEFAULT NULL,
+  `cidade` varchar(255) DEFAULT NULL,
+  `estado` varchar(2) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`colaborador_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -97,9 +107,16 @@ CREATE TABLE `empresas` (
   `empresa_id` int unsigned NOT NULL AUTO_INCREMENT,
   `nome_fantasia` varchar(255) DEFAULT NULL,
   `cnpj` varchar(255) DEFAULT NULL,
+  `telefone` varchar(45) DEFAULT NULL,
+  `cep` varchar(45) DEFAULT NULL,
+  `rua` varchar(255) DEFAULT NULL,
+  `numero` int DEFAULT NULL,
+  `bairro` varchar(255) DEFAULT NULL,
+  `cidade` varchar(255) DEFAULT NULL,
+  `estado` varchar(2) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`empresa_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -135,7 +152,7 @@ CREATE TABLE `profissionais` (
   `email` varchar(255) DEFAULT NULL,
   `senha` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`profissional_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -147,4 +164,4 @@ CREATE TABLE `profissionais` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-17 11:58:21
+-- Dump completed on 2023-06-23 17:27:35

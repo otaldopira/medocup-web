@@ -14,8 +14,15 @@ class Colaborador extends Model
         'nome_completo',
         'cpf',
         'data_nascimento',
+        'data_admissao',
         'genero',
         'celular',
+        'cep',
+        'rua',
+        'numero',
+        'bairro',
+        'cidade',
+        'estado',
     ];
 
     protected $table = 'colaboradores';
@@ -24,12 +31,10 @@ class Colaborador extends Model
 
     public $timestamps = false;
 
-    public static function inserirColaborador($nome, $cpf, $dataNascimento, $genero, $celular)
+    public static function inserirColaborador($nome, $cpf, $dataNascimento, $dataAdmissao, $genero, $celular, $cep, $rua, $numero, $bairro, $cidade, $estado)
     {
-        $sql = "INSERT INTO colaboradores (nome_completo, cpf, data_nascimento, genero, celular) 
-                VALUES (?, ?, ?, ?, ?)";
+        DB::table('colaboradores')->insert(['nome_completo' => $nome, 'cpf' => str_replace(["-", "."], [""], $cpf), 'data_nascimento' => $dataNascimento, 'data_admissao' => $dataAdmissao, 'genero' => $genero, 'celular' => $celular, 'cep' => $cep, 'rua' => $rua, 'numero' => $numero, 'bairro' => $bairro, 'cidade' => $cidade, 'estado' => $estado]);
 
-        DB::insert($sql, [$nome, str_replace(["-", "."], [""], $cpf), $dataNascimento, $genero, $celular]);
     }
 
     public static function removerColaborador($colaboradorId)
@@ -39,16 +44,23 @@ class Colaborador extends Model
         DB::delete($sql, [$colaboradorId]);
     }
 
-    public static function atualizarColaborador($id, $nome, $cpf, $dataNascimento, $genero, $celular)
+    public static function atualizarColaborador($id, $nome, $cpf, $dataNascimento, $dataAdmissao, $genero, $celular, $cep, $rua, $numero, $bairro, $cidade, $estado)
     {
         DB::table('colaboradores')
-            ->where('colaborador_id',  intval($id))
+            ->where('colaborador_id', intval($id))
             ->update([
                 'nome_completo' => $nome,
                 'cpf' => str_replace(["-", "."], [""], $cpf),
                 'data_nascimento' => $dataNascimento,
+                'data_admissao' => $dataAdmissao,
                 'genero' => $genero,
                 'celular' => $celular,
+                'cep' => $cep,
+                'rua' => $rua,
+                'numero' => $numero,
+                'bairro' => $bairro,
+                'cidade' => $cidade,
+                'estado' => $estado
             ]);
     }
 

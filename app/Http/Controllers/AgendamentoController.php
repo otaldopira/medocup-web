@@ -43,7 +43,8 @@ class AgendamentoController extends Controller
                 $request->telefone,
                 $request->procedimento,
                 $request->tempo,
-                $request->valor
+                $request->valor,
+                $request->observacoes
             );
 
             return response()->json([
@@ -60,6 +61,7 @@ class AgendamentoController extends Controller
 
     public function update(Request $request)
     {
+
         try {
             $request->validate([
                 'agendamento_id' => 'required',
@@ -83,7 +85,8 @@ class AgendamentoController extends Controller
                 $request->telefone,
                 $request->procedimento,
                 $request->tempo,
-                $request->valor
+                $request->valor,
+                $request->observacoes
             );
 
             return response()->json([
@@ -97,6 +100,7 @@ class AgendamentoController extends Controller
                 'code' => 500
             ]);
         } catch (\Exception $e) {
+
             return response()->json([
                 'message' => 'Erro ao atualizar o agendamento',
                 'code' => 500

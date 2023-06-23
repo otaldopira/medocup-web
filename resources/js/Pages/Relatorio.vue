@@ -6,7 +6,9 @@
             <div class="row my-2">
                 <div class="col">
                     <div class="form-group">
-                        <label for="data"><i class="text-danger">* </i>Data início:</label>
+                        <label class="fw-bold" for="data"
+                            ><i class="text-danger">* </i>Data início:</label
+                        >
                         <input
                             type="date"
                             id="data"
@@ -18,7 +20,9 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label for="data"><i class="text-danger">* </i>Data fim:</label>
+                        <label class="fw-bold" for="data"
+                            ><i class="text-danger">* </i>Data fim:</label
+                        >
                         <input
                             type="date"
                             id="data"
@@ -30,7 +34,9 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label for="search-empresa">Empresa:</label>
+                        <label class="fw-bold" for="search-empresa"
+                            >Empresa:</label
+                        >
                         <select
                             data-placeholder="Selecione a empresa"
                             class="form-control"
@@ -50,7 +56,7 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label class="font-weight-bold">Profissional:</label>
+                        <label class="fw-bold">Profissional:</label>
                         <select
                             data-placeholder="Selecione um profissional"
                             class="form-control"
@@ -70,8 +76,8 @@
                 </div>
             </div>
             <div
-                class="btn btn-primary mt-5 w-50 mx-auto"
-                @click="verificarDados()"
+                class="btn btn-lg btn-primary mt-5 w-50 mx-auto fw-bold"
+                @click="verificarDados"
             >
                 Gerar
             </div>
@@ -101,12 +107,12 @@ export default {
             profissionais: [],
         };
     },
-    components:{
-        Navbar
-    },  
+    components: {
+        Navbar,
+    },
     methods: {
         gerarRelatorio(titulo) {
-            this.resetarValores()
+            this.resetarValores();
             let total = 0;
             const conteudoRelatorio = [
                 {
@@ -349,7 +355,9 @@ export default {
         resetarValores() {
             this.form.empresa = "";
             this.form.profissional = "";
-            $("#search-profissional").val(this.form.profissional).trigger("change");
+            $("#search-profissional")
+                .val(this.form.profissional)
+                .trigger("change");
             $("#search-empresa").val(this.form.empresa).trigger("change");
         },
     },

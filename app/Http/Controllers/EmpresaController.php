@@ -23,12 +23,25 @@ class EmpresaController extends Controller
             $request->validate([
                 'nome_fantasia' => 'required',
                 'cnpj' => 'required|min:18',
+                'telefone' => 'required',
+                'cep' => 'required',
+                'rua' => 'required',
+                'bairro' =>'required',
+                'cidade' =>'required',
+                'estado' =>'required',
             ]);
 
             // Chame o método insertAgendamento no modelo Agendamento
             Empresa::inserirEmpresa(
                 $request->nome_fantasia,
                 $request->cnpj,
+                $request->telefone,
+                $request->cep,
+                $request->rua,
+                $request->numero,
+                $request->bairro,
+                $request->cidade,
+                $request->estado,
 
             );
 
@@ -50,6 +63,12 @@ class EmpresaController extends Controller
             $request->validate([
                 'nome_fantasia' => 'required',
                 'cnpj' => 'required|min:18',
+                'telefone' => 'required',
+                'cep' => 'required',
+                'rua' => 'required',
+                'bairro' =>'required',
+                'cidade' =>'required',
+                'estado' =>'required',
             ]);
 
             // Chame o método insertAgendamento no modelo Agendamento
@@ -57,6 +76,13 @@ class EmpresaController extends Controller
                 $empresa_id,
                 $request->nome_fantasia,
                 $request->cnpj,
+                $request->telefone,
+                $request->cep,
+                $request->rua,
+                $request->numero,
+                $request->bairro,
+                $request->cidade,
+                $request->estado,
 
             );
 

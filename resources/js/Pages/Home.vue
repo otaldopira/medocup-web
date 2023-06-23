@@ -2,8 +2,8 @@
     <Navbar></Navbar>
     <div class="container pt-5">
         <h1>Agenda</h1>
-        <div class="form-group">
-            <label class="font-weight-bold">Profissional:</label>
+        <div class="form-group my-3">
+            <label class="fw-bold">Profissional:</label>
             <select
                 data-placeholder="Selecione um profissional"
                 class="form-control"

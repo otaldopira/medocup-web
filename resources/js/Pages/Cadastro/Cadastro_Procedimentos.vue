@@ -6,8 +6,8 @@
                 <h2>Procedimentos</h2>
             </div>
             <form>
-                <div class="form-group">
-                    <label for="nome">Nome:</label>
+                <div class="form-group my-2">
+                    <label class="fw-bold" for="nome">Nome:</label>
                     <input
                         type="text"
                         class="form-control"
@@ -15,8 +15,8 @@
                         v-model="nome"
                     />
                 </div>
-                <div class="form-group">
-                    <label for="tempo">Tempo:</label>
+                <div class="form-group my-2">
+                    <label class="fw-bold" for="tempo">Tempo:</label>
                     <input
                         type="text"
                         id="tempo"
@@ -26,8 +26,8 @@
                         placeholder="Minutos"
                     />
                 </div>
-                <div class="form-group">
-                    <label for="valor">Valor:</label>
+                <div class="form-group my-2">
+                    <label class="fw-bold" for="valor">Valor:</label>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1"
@@ -49,7 +49,7 @@
                         type="submit"
                         @click="submitForm"
                         :class="buttonClass"
-                        class="w-50"
+                        class="w-50 fw-bold btn-lg"
                     >
                         {{ buttonText }}
                     </button>

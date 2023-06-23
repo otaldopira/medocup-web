@@ -6,7 +6,7 @@
             <ul class="nav nav-tabs">
                 <li class="nav-item">
                     <a
-                        class="nav-link active"
+                        class="nav-link active fw-bold"
                         @click="irFicha()"
                         id="ficha"
                         aria-current="page"
@@ -16,7 +16,7 @@
                 </li>
                 <li class="nav-item nav-atendimento">
                     <a
-                        class="nav-link"
+                        class="nav-link fw-bold"
                         id="atendimento"
                         href="#"
                         @click="irAtendimento"
@@ -25,59 +25,168 @@
                 </li>
             </ul>
             <div id="ficha-paciente">
-                <form>
-                    <div class="form-group">
-                        <label for="nome_completo">Nome Completo:</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="nome_completo"
-                            v-model="nomeCompleto"
-                        />
+                <div class="row my-2">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="nome_completo" class="fw-bold">Nome Completo:</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="nome_completo"
+                                v-model="nomeCompleto"
+                            />
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="cpf">CPF:</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            v-mask="['###.###.###-##']"
-                            id="cpf"
-                            v-model="cpf"
-                        />
+                </div>
+                <div class="row my-2">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="cpf" class="fw-bold">CPF:</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                v-mask="['###.###.###-##']"
+                                id="cpf"
+                                v-model="cpf"
+                            />
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="data_nascimento">Data de Nascimento:</label>
-                        <input
-                            type="date"
-                            class="form-control"
-                            id="data_nascimento"
-                            v-model="dataNascimento"
-                        />
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="dataAdmissao" class="fw-bold">Data de admissão:</label>
+                            <input
+                                type="date"
+                                class="form-control"
+                                id="dataAdmissao"
+                                v-model="dataAdmissao"
+                            />
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="genero">Gênero:</label>
-                        <select class="form-control" id="genero" v-model="genero">
-                            <option value="Masculino">Masculino</option>
-                            <option value="Feminino">Feminino</option>
-                            <option value="Outro">Outro</option>
-                        </select>
+                </div>
+                <div class="row my-2">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="data_nascimento" class="fw-bold"
+                                >Data de Nascimento:</label
+                            >
+                            <input
+                                type="date"
+                                class="form-control"
+                                id="data_nascimento"
+                                v-model="dataNascimento"
+                            />
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="celular">Celular:</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            v-mask="['(##) ####-####', '(##) #####-####']"
-                            id="celular"
-                            v-model="celular"
-                        />
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="genero" class="fw-bold">Gênero:</label>
+                            <select
+                                class="form-control"
+                                id="genero"
+                                v-model="genero"
+                            >
+                                <option value="Masculino">Masculino</option>
+                                <option value="Feminino">Feminino</option>
+                                <option value="Outro">Outro</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="d-flex justify-content-center mt-3">
-                        <button type="submit" @click="submitForm" class="w-50" :class="buttonClass">
-                            {{ buttonText }}
-                        </button>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="celular" class="fw-bold">Celular:</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                v-mask="['(##) ####-####', '(##) #####-####']"
+                                id="celular"
+                                v-model="celular"
+                            />
+                        </div>
                     </div>
-                </form>
+                </div>
+                <div class="row my-2">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="cep" class="fw-bold">CEP:</label>
+                            <input
+                                type="text"
+                                v-mask="'#####-###'"
+                                class="form-control"
+                                @keyup="buscarCep()"
+                                id="cep"
+                                v-model="cep"
+                            />
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="rua" class="fw-bold">Rua:</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="rua"
+                                v-model="rua"
+                            />
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group">
+                            <label for="numero" class="fw-bold">Número:</label>
+                            <input
+                                type="number"
+                                class="form-control"
+                                id="numero"
+                                v-model="numero"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="bairro" class="fw-bold">Bairro:</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="bairro"
+                                v-model="bairro"
+                            />
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="cidade" class="fw-bold">Cidade:</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="cidade"
+                                v-model="cidade"
+                            />
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group">
+                            <label for="estado" class="fw-bold">Estado:</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="estado"
+                                v-mask="'AA'"
+                                v-model="estado"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center mt-3">
+                    <button
+                        type="submit"
+                        @click="submitForm"
+                        class="w-50 fw-bold btn-lg"
+                        :class="buttonClass"
+                    >
+                        {{ buttonText }}
+                    </button>
+                </div>
             </div>
             <div id="atendimento-paciente" hidden>
                 <div class="card">
@@ -92,7 +201,7 @@
                             <div class="input-group mb-3"></div>
                             <div class="pb-4 d-flex justify-content-center">
                                 <button
-                                    class="btn btn-primary w-50"
+                                    class="btn btn-primary w-50 fw-bold"
                                     @click="enviarArquivo"
                                 >
                                     Enviar
@@ -139,6 +248,7 @@
 <script>
 import Navbar from "../../Components/Navbar.vue";
 import Swal from "sweetalert2/dist/sweetalert2.js";
+import { createToast } from "mosha-vue-toastify";
 import { mask } from "vue-the-mask";
 import axios from "axios";
 import $ from "jquery";
@@ -161,8 +271,15 @@ export default {
             nomeCompleto: "",
             cpf: "",
             dataNascimento: "",
+            dataAdmissao: "",
             genero: "",
             celular: "",
+            cep: "",
+            rua: "",
+            numero: "",
+            bairro: "",
+            cidade: "",
+            estado: "",
             isEditing: false,
         };
     },
@@ -180,6 +297,23 @@ export default {
         },
     },
     methods: {
+        async buscarCep() {
+            console.log(this.cep.length);
+            if (this.cep.length == 9) {
+                await axios
+                    .get(`https://viacep.com.br/ws/${this.cep}/json/`)
+                    .then((response) => {
+                        if (response.status === 200) {
+                            console.log(response);
+                            this.rua = response.data.logradouro;
+                            this.numero = response.data.numero;
+                            this.bairro = response.data.bairro;
+                            this.cidade = response.data.localidade;
+                            this.estado = response.data.uf;
+                        }
+                    });
+            }
+        },
         baixarDocumento(nome, caminho) {
             console.log(caminho);
             axios
@@ -246,21 +380,29 @@ export default {
                 this.createForm(); // Chama a função para cadastrar
             }
         },
-        createForm() {
+        async createForm() {
             event.preventDefault();
-            axios
+            await axios
                 .post("/adicionar/colaborador", {
                     nome_completo: this.nomeCompleto,
                     cpf: this.cpf,
                     data_nascimento: this.dataNascimento,
+                    dataAdmissao: this.dataAdmissao,
                     genero: this.genero,
                     celular: this.celular,
+                    cep: this.cep,
+                    rua: this.rua,
+                    numero: this.numero,
+                    bairro: this.bairro,
+                    cidade: this.cidade,
+                    estado: this.estado,
                 })
                 .catch((response) => {
-                    this.exibirModal(
-                        "error",
-                        "Ocorreu ao inserir o colaborador."
-                    );
+                    createToast("Erro ao inserir colaborador!", {
+                        type: "danger",
+                        showIcon: "true",
+                        timeout: 2500,
+                    });
                 })
                 .then((response) => {
                     if (response.data.code == 200) {
@@ -269,24 +411,38 @@ export default {
                             "Colaborador inserido com sucesso!",
                             true
                         );
+                    } else {
+                        createToast("Erro ao inserir colaborador!", {
+                            type: "danger",
+                            showIcon: "true",
+                            timeout: 2500,
+                        });
                     }
                 });
         },
-        editForm() {
+        async editForm() {
             event.preventDefault();
-            axios
+            await axios
                 .put(`/atualizar/colaborador/${this.id}`, {
                     nome_completo: this.nomeCompleto,
                     cpf: this.cpf,
                     data_nascimento: this.dataNascimento,
+                    data_admissao: this.dataAdmissao,
                     genero: this.genero,
                     celular: this.celular,
+                    cep: this.cep,
+                    rua: this.rua,
+                    numero: this.numero,
+                    bairro: this.bairro,
+                    cidade: this.cidade,
+                    estado: this.estado,
                 })
                 .catch((response) => {
-                    this.exibirModal(
-                        "error",
-                        "Ocorreu um erro ao atualizar o colaborador."
-                    );
+                    createToast("Erro ao atualizar colaborador!", {
+                        type: "danger",
+                        showIcon: "true",
+                        timeout: 2500,
+                    });
                 })
                 .then((response) => {
                     console.log(response);
@@ -296,6 +452,12 @@ export default {
                             "Colaborador atualizado com sucesso!",
                             true
                         );
+                    } else {
+                        createToast("Erro ao atualizar colaborador!", {
+                            type: "danger",
+                            showIcon: "true",
+                            timeout: 2500,
+                        });
                     }
                 });
         },
@@ -326,11 +488,20 @@ export default {
             await axios
                 .post("/buscar/colaborador/" + this.id)
                 .then((response) => {
+                    console.log(response);
                     this.nomeCompleto = response.data.nome_completo;
                     this.cpf = response.data.cpf;
                     this.dataNascimento = response.data.data_nascimento;
+                    this.dataAdmissao = response.data.data_admissao;
                     this.genero = response.data.genero;
                     this.celular = response.data.celular;
+                    this.cep = response.data.cep;
+                    this.rua = response.data.rua;
+                    this.numero = response.data.numero;
+                    this.bairro = response.data.bairro;
+                    this.cidade = response.data.cidade;
+                    this.estado = response.data.estado;
+
                     Swal.close();
                 });
         },
@@ -363,4 +534,5 @@ export default {
 <style>
 @import "bootstrap/dist/css/bootstrap.css";
 @import "sweetalert2/dist/sweetalert2.min.css";
+@import "mosha-vue-toastify/dist/style.css";
 </style>
